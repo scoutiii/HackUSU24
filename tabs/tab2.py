@@ -149,7 +149,7 @@ def server(input, output, session):
             mode='lines',
             line=dict(
                 width=4,
-                dash="dash",
+                dash="dot",
                 color="rgba(64, 64, 64, 0.5)",
             ),
             name="RpoPlan (Post-Branch)",

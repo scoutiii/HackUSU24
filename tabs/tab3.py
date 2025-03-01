@@ -41,7 +41,10 @@ def get_maneuver_markers():
 # ---------------------------
 # Continuous variable plot helper.
 def plot_continuous(c_col, colorbar_title):
-    c_scale = "Hot"
+    if c_col == "relativeRange":
+        c_scale = "Hot_r"
+    else:
+        c_scale = "Hot"
     c_min = RpoPlan[c_col].min()
     c_max = RpoPlan[c_col].max()
     hover_temp = f"x: %{{x}}<br>y: %{{y}}<br>z: %{{z}}<br>{c_col}: %{{customdata[0]}}<extra></extra>"
@@ -163,8 +166,8 @@ mission_mapping = {
 # ---------------------------
 # Dropdown mapping.
 continuous_options = {
-    "Range": "relativeRange",
-    "Velocity": "relativeVelocity",
+    "relativeRange": "relativeRange",
+    "relativeVelocity": "relativeVelocity",
     "relativeRangeRate": "relativeRangeRate",
     "sensorAngleToSun": "sensorAngleToSun",
     "sensorAngleToMoon": "sensorAngleToMoon",
