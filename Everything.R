@@ -173,4 +173,5 @@ data2 <- plot_single(46)
 data3 <- get(paste0("d", 46))
 plot <- plot_ly()
 plot <- plot %>% add_trace(x = data2$positionDepRelToChiefLvlhZ, y = data2$positionDepRelToChiefLvlhY, z = data2$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines",line = list(color = colors, width = 5))
-plot <- plo
+plot <- plot %>% add_trace(x = data3$positionDepRelToChiefLvlhZ, y = data3$positionDepRelToChiefLvlhY, z = data3$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines", line = list(color = -data3$relativeRange, colorscale = "Viridis", width = 5))
+plot
