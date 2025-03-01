@@ -78,7 +78,7 @@ plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChie
 plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$storedData, colorscale = "Viridis", size = 5))
 
 
-
+#do this first
 check_conditions <- function(x) {
   # Check if all conditions are met for the current row
   bool1<-FALSE
@@ -117,9 +117,11 @@ check_conditions <- function(x) {
 # Apply the check_conditions function to each element of rpoplan$secondsSinceStart
 colors <- sapply(rpoplan$secondsSinceStart, function(x) check_conditions(x))
 
+#do this second                 
 # Define custom color palette for each category
 category_colors <- c("0" = "black", "50" = "#1b9e77", "100" = "#d95f02", "150" = "#7570b3", "200" = "#e7298a")
 
+#do this third
 # Map the 'category' column to colors
 colors <- category_colors[sapply(rpoplan$secondsSinceStart, function(x) check_conditions(x))]
 
@@ -163,6 +165,7 @@ plot <- plot %>% add_trace(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$p
 # Show the plot
 plot
 
+#do this fourth
 plot_single <- function(x) {
   data1 <- get(paste0("d", x))
   data <- rpoplan[which(rpoplan$secondsSinceStart > data1$secondsSinceStart[1] - 12000 & rpoplan$secondsSinceStart < data1$secondsSinceStart[1]),]
