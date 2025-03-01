@@ -139,3 +139,39 @@ d47<-read.csv("ManeuverBranchId47.csv")
 
 list.files(pattern=".csv")
 
+# Create an empty plot
+plot <- plot_ly()
+
+# Loop through the datasets d1 to d40
+for (i in 1:47) {
+  # Dynamically access the dataset name (e.g., d1, d2, ..., d47)
+  dataset <- get(paste0("d", i))
+  
+  # Add the trace for each dataset to the plot
+  plot <- plot %>% add_trace(
+    x = dataset$positionDepRelToChiefLvlhZ,
+    y = dataset$positionDepRelToChiefLvlhY,
+    z = dataset$positionDepRelToChiefLvlhX,
+    type = "scatter3d",
+    mode = "lines",
+    line = list(color = dataset$relativeRange, colorscale = "Viridis", width = 5)
+  )
+}
+
+plot <- plot %>% add_trace(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines", line = list(color = colors, opacity = 0, width = 5))
+
+# Show the plot
+plot
+
+plot_single <- function(x) {
+  data1 <- get(paste0("d", x))
+  data <- rpoplan[which(rpoplan$secondsSinceStart > data1$secondsSinceStart[1] - 12000 & rpoplan$secondsSinceStart < data1$secondsSinceStart[1]),]
+  return(data)
+}
+
+data2 <- plot_single(46)
+data3 <- get(paste0("d", 46))
+plot <- plot_ly()
+plot <- plot %>% add_trace(x = data2$positionDepRelToChiefLvlhZ, y = data2$positionDepRelToChiefLvlhY, z = data2$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines",line = list(color = colors, width = 5))
+plot <- plot %>% add_trace(x = data3$positionDepRelToChiefLvlhZ, y = data3$positionDepRelToChiefLvlhY, z = data3$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines", line = list(color = -data3$relativeRange, colorscale = "Viridis", width = 5))
+plot
