@@ -117,6 +117,24 @@ check_conditions <- function(x) {
 # Apply the check_conditions function to each element of rpoplan$secondsSinceStart
 colors <- sapply(rpoplan$secondsSinceStart, function(x) check_conditions(x))
 
+# Define custom color palette for each category
+category_colors <- c("0" = "black", "50" = "#1b9e77", "100" = "#d95f02", "150" = "#7570b3", "200" = "#e7298a")
+
+# Map the 'category' column to colors
+colors <- category_colors[sapply(rpoplan$secondsSinceStart, function(x) check_conditions(x))]
+
+# Create a 3D scatter plot
+plot <- plot_ly(type = "scatter3d", mode = "markers")
+
+# Add first set of points (first 3D graph)
+plot <- plot %>% add_trace(x = d40$positionDepRelToChiefLvlhZ, y = d40$positionDepRelToChiefLvlhY, z = d40$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines", line = list(colors = d40$relativeRange, colorscale = "Viridis", width = 5))
+
+# Add second set of points (second 3D graph)
+plot <- plot %>% add_trace(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "lines", line = list(color = colors, opacity = 0, width = 5))
+
+# Show the plot
+plot
+
 d47<-read.csv("ManeuverBranchId47.csv")
 
 list.files(pattern=".csv")
