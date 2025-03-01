@@ -53,6 +53,70 @@ d45<-read.csv("ManeuverBranchId45.csv")
 
 data_set<-rbind.fill(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,d26,d27,d28,d29,d30,d31,d32,d33,d34,d35,d36,d37,d38,d39,d40,d41,d42,d43,d44,d45,d46,d47)
 d46<-read.csv("ManeuverBranchId46.csv")
+
+par(mfrow=c(2, 2))
+plot(rpoplan$secondsSinceStart,rpoplan$positionDepRelToChiefEciX)
+plot(rpoplan$secondsSinceStart,rpoplan$positionDepRelToChiefEciY)
+plot(rpoplan$secondsSinceStart,rpoplan$positionDepRelToChiefEciZ)
+plot(rpoplan$secondsSinceStart,rpoplan$relativeRange)
+
+install.packages("plotly")
+library(plotly)
+
+# Create a 3D scatter plot
+plot_ly(x = rpoplan$positionDepRelToChiefEciX, y = rpoplan$positionDepRelToChiefEciY, z = rpoplan$positionDepRelToChiefEciZ, type = "scatter3d", mode = "markers")
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers")
+plot_ly(x = rpoplan$attitudeDeputyEci2BodyQx, y = rpoplan$attitudeDeputyEci2BodyQz, z = rpoplan$attitudeDeputyEci2BodyQz, type = "scatter3d", mode = "markers")
+plot(rpoplan$secondsSinceStart,sqrt(rpoplan$positionDepRelToChiefLvlhZ^2 + rpoplan$positionDepRelToChiefLvlhY^2 + rpoplan$positionDepRelToChiefLvlhX^2))
+plot(rpoplan$secondsSinceStart,rpoplan$storedData)
+plot_ly(x = rpoplan$secondsSinceStart, y = rpoplan$positionDepRelToChiefLvlhZ, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers")
+
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$secondsSinceStart, colorscale = "Viridis", size = 5))
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$sensorAngleToSun, colorscale = "Viridis", size = 5))
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$sensorAngleToMoon, colorscale = "Viridis", size = 5))
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$relativeVelocity, colorscale = "Viridis", size = 5))
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$storedData, colorscale = "Viridis", size = 5))
+
+
+
+check_conditions <- function(x) {
+  # Check if all conditions are met for the current row
+  bool1<-FALSE
+  for (i in 1:nrow(ground)) {
+    # Check if conditions are met for the current row
+    if (ground$startSeconds[i] <= x && x <= ground$stopSeconds[i])
+    {
+      bool1<-TRUE
+    }
+  }
+  return(bool1)
+}
+
+plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = colors, colorscale = "Viridis", size = 5))
+
+bool1 <- (5980 <= rpoplan$secondsSinceStart)
+
+check_conditions <- function(x) {
+  # Check if any condition is met for the current x value
+  for (i in 1:nrow(ground)) {
+    # Check if x is between startSeconds and stopSeconds
+    if (ground$startSeconds[i] <= x && x <= ground$stopSeconds[i]) {
+      if (ground$groundSite[i] == 1)
+        return(50)
+      else if (ground$groundSite[i] == 2)
+        return(100)
+      else if (ground$groundSite[i] == 3)
+        return(150)
+      else
+        return(200)
+    }
+  }
+  return(0)
+}
+
+# Apply the check_conditions function to each element of rpoplan$secondsSinceStart
+colors <- sapply(rpoplan$secondsSinceStart, function(x) check_conditions(x))
+
 d47<-read.csv("ManeuverBranchId47.csv")
 
 list.files(pattern=".csv")
