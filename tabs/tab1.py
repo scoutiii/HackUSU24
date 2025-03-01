@@ -7,26 +7,27 @@ from shiny import ui, render
 
 # Define paths and load data
 app_dir = Path(__file__).parent.parent
-data_path = app_dir / "CelestialChoreography" / "Data"
-df_payload = pd.read_csv(data_path / "PayloadEvents.csv")
-df_ground = pd.read_csv(data_path / "GroundContacts.csv")
-df_rpoPlan = pd.read_csv(data_path / "RpoPlan.csv")
+# data_path = app_dir / "CelestialChoreography" / "Data"
+data_path = "./data/"
+df_payload = pd.read_csv("data/PayloadEvents.csv")
+df_ground  = pd.read_csv("data/GroundContacts.csv")
+df_rpoPlan = pd.read_csv("data/RpoPlan.csv")
 
 # Get min and max of secondsSinceStart
 x_min = df_rpoPlan["secondsSinceStart"].min()
 x_max = df_rpoPlan["secondsSinceStart"].max()
 
 # UI definition
-ui = ui.nav_panel(
-    "Tab 1",
+tab_ui = ui.nav_panel(
+    "Time Series Plots",
     ui.page_sidebar(
         ui.sidebar(
+            ui.h3("Options"),
             ui.input_select("var", "Select variable", choices=["sensorAngleToSun", "sensorAngleToMoon"]),
             ui.input_slider("x_zoom", "Zoom X-Axis", min=x_min, max=x_max, value=(x_min, x_max)),
             ui.input_numeric("hard_deck", "Hard Deck", value=100, min=0, step=1),
         ),
-        ui.output_plot("hist"),
-        title="Data Visualization Dashboard",
+        ui.output_plot("hist")
     ),
 )
 

@@ -77,7 +77,7 @@ tab_ui = ui.nav_panel("3D Maneuver Branch",
             # Hard Deck input (default 100 for Range; will be overridden to 0 for Velocity)
             ui.input_numeric("hard_deck", "Hard Deck", value=100, min=0, step=1),
             # Dropdown to choose the coloring option: Range or Velocity
-            ui.input_select("color_option", "Coloring Option", {"Range": "Range", "Velocity": "Velocity"}),
+            ui.input_select("color_option", "Coloring Option", {"relativeRange": "Range", "relativeVelocity": "Velocity"}, selected="Range"),
             # Toggle: if checked, mark points where chosen column > Hard Deck; if unchecked, mark points where chosen column < Hard Deck.
             # Default is now False.
             ui.input_checkbox("inequality_toggle", "Mark points where value > Hard Deck (uncheck for < Hard Deck)", value=False)
@@ -93,7 +93,8 @@ def server(input, output, session):
     def plot2():
         # Determine which column to use for coloring based on the dropdown selection.
         color_choice = input.color_option()
-        if color_choice == "Range":
+        # print(color_choice)
+        if color_choice == "relativeRange":
             c_col = "relativeRange"
             c_scale = "Hot_r"
         else:
@@ -266,5 +267,7 @@ def server(input, output, session):
                 zaxis_title="R (km)"
             )
         )
+
+        # print(c_col, t_col, hard_deck_val)
         
         return ui.HTML(fig.to_html())
