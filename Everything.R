@@ -78,7 +78,6 @@ plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChie
 plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChiefLvlhY, z = rpoplan$positionDepRelToChiefLvlhX, type = "scatter3d", mode = "markers",marker = list(color = rpoplan$storedData, colorscale = "Viridis", size = 5))
 
 
-#do this first
 check_conditions <- function(x) {
   # Check if all conditions are met for the current row
   bool1<-FALSE
@@ -96,19 +95,20 @@ plot_ly(x = rpoplan$positionDepRelToChiefLvlhZ, y = rpoplan$positionDepRelToChie
 
 bool1 <- (5980 <= rpoplan$secondsSinceStart)
 
+#do this first
 check_conditions <- function(x) {
   # Check if any condition is met for the current x value
   for (i in 1:nrow(ground)) {
     # Check if x is between startSeconds and stopSeconds
     if (ground$startSeconds[i] <= x && x <= ground$stopSeconds[i]) {
       if (ground$groundSite[i] == 1)
-        return(50)
+        return("50")
       else if (ground$groundSite[i] == 2)
-        return(100)
+        return("100")
       else if (ground$groundSite[i] == 3)
-        return(150)
+        return("150")
       else
-        return(200)
+        return("200")
     }
   }
   return(0)
