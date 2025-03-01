@@ -3,13 +3,17 @@ from shiny import ui
 import tabs.tab1 as tab1
 import tabs.tab2 as tab2
 import tabs.tab3 as tab3
+import pandas as pd
+
+
+
 
 
 app_ui = ui.page_fluid(
     ui.navset_tab(
-        tab1.ui,  # Import Tab 1 UI from tab1.py
-        tab2.ui,  # Import Tab 2 UI from tab2.py
-        tab3.ui   # Import Tab 3 UI from tab3.py
+        # tab1.tab_ui,  # Import Tab 1 UI from tab1.py
+        tab2.tab_ui,  # Import Tab 2 UI from tab2.py
+        # tab3.tab_ui   # Import Tab 3 UI from tab3.py
     )
 )
 

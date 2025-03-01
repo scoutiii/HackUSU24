@@ -2,7 +2,7 @@ from shiny import ui, render
 import matplotlib.pyplot as plt
 import pandas as pd
 
-ui = ui.nav_panel("Tab 3",
+tab_ui = ui.nav_panel("Tab 3",
     ui.row(
         ui.column(4,
             ui.h3("Options"),
